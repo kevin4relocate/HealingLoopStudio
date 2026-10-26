@@ -1,0 +1,1 @@
+import fs from 'node:fs';fs.rmSync('dist',{recursive:true,force:true});fs.mkdirSync('dist/src',{recursive:true});for(const f of ['index.html','_headers'])if(fs.existsSync(f))fs.copyFileSync(f,'dist/'+f);for(const f of fs.readdirSync('src'))fs.copyFileSync('src/'+f,'dist/src/'+f);console.log('Cloudflare Pages dist built');
