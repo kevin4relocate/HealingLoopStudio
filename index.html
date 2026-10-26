@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="theme-color" content="#060817" />
+<meta name="description" content="Healing Loop Studio — procedural human wireframe and seamless energy loops" />
+<title>Healing Loop Studio</title>
+<link rel="stylesheet" href="./src/style.css" />
+</head>
+<body>
+<div class="app">
+  <header class="head">
+    <div class="brand"><div class="brand-icon">✺</div><div><h1>HEALING <span>LOOP</span> STUDIO</h1><p>Generative neon wireframe meditation</p></div></div>
+    <div class="head-tag"><span class="live"></span> Browser-powered · No server render</div>
+  </header>
+  <main class="layout">
+    <section class="stage">
+      <div class="topbar"><span><span class="live"></span> LIVE PREVIEW</span><span id="scene-id">SCENE #000000</span></div>
+      <div class="screen"><canvas id="art" width="1280" height="720" aria-label="Live animation showing a lying wireframe human surrounded by energy particles"></canvas><div class="screen-label"><span id="theme-chip">COSMIC HEALING</span> <span>LOOP: 10.0s</span></div></div>
+      <div class="under-stage"><button id="play" class="small">❚❚ Pause preview</button><span id="fps">PREVIEW · 1280 × 720</span><span class="phase" id="phase">00:00 / 00:10</span></div>
+      <div id="message" role="status" aria-live="polite">Mô hình người wireframe và các hạt năng lượng được tạo bằng code. Mỗi cảnh có seed riêng.</div>
+    </section>
+    <aside class="settings">
+      <h2>Create a healing loop</h2><p class="sub">Cảnh mới được tạo ngẫu nhiên; chuyển động tuần hoàn giúp lặp liên tục.</p>
+      <label for="style">Visual atmosphere</label>
+      <select id="style"><option value="random">🎲 Random theme</option><option value="cosmic">Cosmic Blue & Violet</option><option value="gold">Golden Aura</option><option value="chakra">Seven Chakra</option><option value="emerald">Emerald Dream</option><option value="rose">Rose Nebula</option></select>
+      <label for="pose">Human pose</label>
+      <select id="pose"><option value="random">🎲 Random pose</option><option value="rest">Side-lying · curled arms</option><option value="float">Floating · relaxed arms</option></select>
+      <label for="res">Video resolution</label>
+      <select id="res"><option value="1280">HD 1280 × 720</option><option value="1920">Full HD 1920 × 1080 (slower)</option></select>
+      <div class="facts"><span><b>10.0s</b><small>Duration</small></span><span><b>30</b><small>FPS</small></span><span><b>∞</b><small>Perfect cycle</small></span></div>
+      <button id="generate" class="primary">✦ Generate random 10s video</button>
+      <div class="progress-wrap" id="progress-wrap" hidden><div class="progress-head"><span id="progress-title">Rendering video</span><b id="progress-pct">0%</b></div><div class="progress"><div id="progress-bar"></div></div><p id="progress-description">Khởi tạo bộ mã hóa...</p></div>
+      <a id="download" class="download" href="#" hidden>↓ Download video</a>
+      <button id="random-preview" class="secondary">⟳ Randomize preview only</button>
+      <div class="tips"><strong>How it loops</strong><p>Motion is sampled at <code>t = frame / 30</code>. Every particle position and glow is periodic over exactly 10 seconds, so time 10 returns to time 0 without a jump.</p><p><strong>Export:</strong> MP4 (H.264) on supported browsers. WebM fallback where MP4 encoding is unavailable. Chrome desktop recommended.</p></div>
+    </aside>
+  </main>
+  <footer>Healing Loop Studio · Client-side procedural artwork · No API keys · Cloudflare Pages ready</footer>
+</div>
+<script type="module" src="./src/main.js"></script>
+</body></html>
