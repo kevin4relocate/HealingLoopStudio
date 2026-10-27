@@ -16,7 +16,10 @@ function stream(i,s){switch(i%4){case 0:return [-90+1470*s,605-92*Math.sin(s*PI*
 export class HealingEngine{
  constructor(canvas){this.canvas=canvas;this.ctx=canvas.getContext('2d',{alpha:false});this.photoOverlay=new PhotoOverlay();this.backgroundImage=null;}
  setBackgroundImage(image,filename=''){this.backgroundImage=image||null;this.photoOverlay.setArtwork(filename);}
- hasBodyPath(){return this.photoOverlay.bodyEnabled;}
+ hasBodyPath(){return this.photoOverlay.hasManualPaths();}
+ setManualPaths(paths){this.photoOverlay.setManualPaths(paths)}
+ getManualPaths(){return this.photoOverlay.getManualPaths()}
+ setAmbientEffects(settings){this.photoOverlay.setEffects(settings)}
  setScene(scene){this.scene=scene;scene.effect=['dna','stream','aura'].includes(scene.pose)?scene.pose:['dna','stream','aura'][scene.seed%3];this.photoOverlay.setSeed(scene.seed);this.palette=themes[scene.theme]||themes.cosmic;let r=random(scene.seed);this.body=figure(scene.pose);this.stars=Array.from({length:370},()=>({x:r()*1280,y:r()*690,z:r()*TAU,r:.2+r()*1.5,a:.12+r()*.75}));this.particles=Array.from({length:scene.density},()=>({line:Math.floor(r()*4),p:r(),off:(r()-.5)*73,freq:1+Math.floor(r()*2),r:.4+r()*1.7,z:r(),phase:r()*TAU}));this.flowers=Array.from({length:scene.flowers},()=>({x:r()*1280,y:410+Math.pow(r(),.7)*310,r:.7+r()*2.4,z:r()*TAU,a:.1+r()*.7}));this.grass=Array.from({length:1100},()=>({x:r()*1280,y:420+r()*300,h:2+r()*25,a:.03+r()*.16}));}
  render(time){if(!this.scene)return;const c=this.ctx,W=this.canvas.width,H=this.canvas.height;if(this.backgroundImage){c.setTransform(W/1280,0,0,H/720,0,0);this.photoOverlay.draw(c,this.backgroundImage,this.scene,time);return;}c.setTransform(W/1280,0,0,H/720,0,0);this.photoOverlay.drawEmpty(c);return;const p=((time%DURATION)+DURATION)%DURATION/DURATION,angle=TAU*p,[a,b,d,bg]=this.palette;c.setTransform(W/1280,0,0,H/720,0,0);c.globalAlpha=1;c.globalCompositeOperation='source-over';c.fillStyle=bg;c.fillRect(0,0,1280,720);glow(c,750,310,560,b,.19);glow(c,170,310,460,d,.14);for(let s of this.stars)dot(c,s.x,s.y,s.r,s.r>1?a:'#c2d4fc',s.a*(.7+.3*Math.sin(angle+s.z)));c.lineWidth=.7;for(let g of this.grass){c.strokeStyle=rgb(a,g.a);c.beginPath();c.moveTo(g.x,g.y);c.quadraticCurveTo(g.x-3,g.y-g.h*.6,g.x+4*Math.sin(g.x*.02+angle),g.y-g.h);c.stroke()}
  this.streamLayer(c,p,false);
