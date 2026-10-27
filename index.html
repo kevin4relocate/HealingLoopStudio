@@ -23,10 +23,10 @@
     </section>
     <aside class="settings">
       <h2>Create a healing loop</h2><p class="sub">Ảnh AI đứng yên, ánh sáng chạy loop 10 giây. Không vẽ hình người bằng code.</p>
-      <div class="upload-zone"><label for="photo-upload">① AI background library</label><input id="photo-upload" type="file" accept="image/png,image/jpeg,image/webp" multiple /><p id="photo-count">Chưa có ảnh. Tải ảnh AI PNG/JPG/WebP lên để bắt đầu.</p><select id="photo-select"><option value="random">🎲 Random uploaded photo</option></select></div>
+      <div class="upload-zone"><label for="photo-upload">① AI background library</label><input id="photo-upload" type="file" accept="image/png,image/jpeg,image/webp" multiple /><p id="photo-count">Chưa có ảnh. Tải ảnh AI PNG/JPG/WebP lên để bắt đầu.</p><p id="body-status" class="body-status">Đường năng lượng bám cơ thể sẽ tự bật với ảnh sleeping_among_the_stars.png.</p><select id="photo-select"><option value="random">🎲 Random uploaded photo</option></select></div>
       <label for="style">Visual atmosphere</label>
       <select id="style"><option value="random">🎲 Random theme</option><option value="cosmic">Cosmic Blue & Violet</option><option value="gold">Golden Aura</option><option value="chakra">Seven Chakra</option><option value="emerald">Emerald Dream</option><option value="rose">Rose Nebula</option></select>
-      <label for="pose">Light animation style</label>
+      <label for="pose">Background light animation</label>
       <select id="pose"><option value="random">🎲 Random effects</option><option value="dna">DNA sparkles</option><option value="stream">Flowing energy</option><option value="aura">Gentle aura</option></select>
       <label for="res">Video resolution</label>
       <select id="res"><option value="1280">HD 1280 × 720</option><option value="1920">Full HD 1920 × 1080 (slower)</option></select>
@@ -35,7 +35,7 @@
       <div class="progress-wrap" id="progress-wrap" hidden><div class="progress-head"><span id="progress-title">Rendering video</span><b id="progress-pct">0%</b></div><div class="progress"><div id="progress-bar"></div></div><p id="progress-description">Khởi tạo bộ mã hóa...</p></div>
       <a id="download" class="download" href="#" hidden>↓ Download video</a>
       <button id="random-preview" class="secondary">⟳ Randomize preview only</button>
-      <div class="tips"><strong>How it loops</strong><p>Motion is sampled at <code>t = frame / 30</code>. Every particle position and glow repeats exactly every 10 seconds. The background image is completely static.</p><p><strong>Export:</strong> MP4 (H.264) on supported browsers. WebM fallback where MP4 encoding is unavailable. Chrome desktop recommended.</p></div>
+      <div class="tips"><strong>How it loops</strong><p>Motion is sampled at <code>t = frame / 30</code>. Ảnh AI hoàn toàn đứng yên. Với ảnh mẫu, ánh sáng chạy từ đầu đến chân và nhánh qua tay, rồi lặp lại đúng sau 10 giây.</p><p><strong>Export:</strong> MP4 (H.264) on supported browsers. WebM fallback where MP4 encoding is unavailable. Chrome desktop recommended.</p></div>
     </aside>
   </main>
   <footer>Healing Loop Studio · AI photo + periodic light overlays · No API keys · Cloudflare Pages ready</footer>
