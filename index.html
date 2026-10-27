@@ -17,13 +17,43 @@
   <main class="layout">
     <section class="stage">
       <div class="topbar"><span><span class="live"></span> LIVE PREVIEW</span><span id="scene-id">SCENE #000000</span></div>
-      <div class="screen"><canvas id="art" width="1280" height="720" aria-label="AI image with looping light effects"></canvas><div class="screen-label"><span id="theme-chip">COSMIC HEALING</span> <span>LOOP: 10.0s</span></div></div>
+      <div class="screen"><canvas id="art" width="1280" height="720" aria-label="AI image with looping light effects"></canvas><svg id="path-svg" viewBox="0 0 1280 720" preserveAspectRatio="none" aria-label="Interactive light path editor"></svg><div class="screen-label"><span id="theme-chip">COSMIC HEALING</span> <span>LOOP: 10.0s</span></div></div>
       <div class="under-stage"><button id="play" class="small">❚❚ Pause preview</button><span id="fps">PREVIEW · 1280 × 720</span><span class="phase" id="phase">00:00 / 00:10</span></div>
       <div id="message" role="status" aria-live="polite">Bắt đầu bằng cách tải ảnh AI vừa tạo lên. Người nằm yên; chỉ ánh sáng chuyển động.</div>
     </section>
     <aside class="settings">
       <h2>Create a healing loop</h2><p class="sub">Ảnh AI đứng yên, ánh sáng chạy loop 10 giây. Không vẽ hình người bằng code.</p>
-      <div class="upload-zone"><label for="photo-upload">① AI background library</label><input id="photo-upload" type="file" accept="image/png,image/jpeg,image/webp" multiple /><p id="photo-count">Chưa có ảnh. Tải ảnh AI PNG/JPG/WebP lên để bắt đầu.</p><p id="body-status" class="body-status">Đường năng lượng bám cơ thể sẽ tự bật với ảnh sleeping_among_the_stars.png.</p><select id="photo-select"><option value="random">🎲 Random uploaded photo</option></select></div>
+      <div class="upload-zone"><label for="photo-upload">① AI background library</label><input id="photo-upload" type="file" accept="image/png,image/jpeg,image/webp" multiple /><p id="photo-count">Chưa có ảnh. Tải ảnh AI PNG/JPG/WebP lên để bắt đầu.</p><p id="body-status" class="body-status">Tải ảnh AI lên rồi tự đặt các điểm đường sáng cho ảnh đó.</p><select id="photo-select"><option value="random">🎲 Random uploaded photo</option></select></div>
+      
+      <div class="editor-panel">
+        <div class="panel-heading"><strong>② Manual Path Editor</strong><span id="editor-state">OFF</span></div>
+        <label class="editor-toggle"><input id="edit-paths" type="checkbox" /> Edit Path trên ảnh</label>
+        <label for="path-type">Chọn đường sáng</label>
+        <select id="path-type">
+          <option value="outline">Outline · Viền cơ thể</option>
+          <option value="body">Body · Dọc thân</option>
+          <option value="arm">Arm · Cánh tay</option>
+          <option value="leg">Leg · Chân</option>
+          <option value="aura">Aura · Vùng hào quang</option>
+        </select>
+        <div class="editor-actions">
+          <button type="button" id="close-path">Close outline</button>
+          <button type="button" id="undo-path">Undo point</button>
+          <button type="button" id="clear-path">Clear selected</button>
+          <button type="button" id="save-path" class="save">Save paths</button>
+        </div>
+        <p id="path-summary">Chưa có path. Chấm các điểm trên ảnh để tạo.</p>
+        <p class="editor-tip">Click để thêm điểm · Kéo điểm để chỉnh · Chọn Outline để bám viền. Path được lưu riêng cho mỗi ảnh và không xuất hiện dưới dạng điểm đánh dấu trong video.</p>
+      </div>
+      <div class="editor-panel ambient-panel">
+        <div class="panel-heading"><strong>③ Extra light effects</strong><span>10s LOOP</span></div>
+        <label class="fx-check"><input id="fx-aurora" type="checkbox" checked /> Aurora ribbons · Dải cực quang</label>
+        <label class="fx-check"><input id="fx-mist" type="checkbox" checked /> Cosmic mist · Sương vũ trụ</label>
+        <label class="fx-check"><input id="fx-fireflies" type="checkbox" checked /> Fireflies · Hạt ánh sáng</label>
+        <label class="fx-check"><input id="fx-glints" type="checkbox" checked /> Star glints · Sao lóe sáng</label>
+        <label class="fx-check"><input id="fx-orbits" type="checkbox" /> Orbit rings · Vòng quỹ đạo</label>
+        <label class="fx-check"><input id="fx-backgroundTrails" type="checkbox" /> Flowing background streams</label>
+      </div>
       <label for="style">Visual atmosphere</label>
       <select id="style"><option value="random">🎲 Random theme</option><option value="cosmic">Cosmic Blue & Violet</option><option value="gold">Golden Aura</option><option value="chakra">Seven Chakra</option><option value="emerald">Emerald Dream</option><option value="rose">Rose Nebula</option></select>
       <label for="pose">Background light animation</label>
@@ -35,7 +65,7 @@
       <div class="progress-wrap" id="progress-wrap" hidden><div class="progress-head"><span id="progress-title">Rendering video</span><b id="progress-pct">0%</b></div><div class="progress"><div id="progress-bar"></div></div><p id="progress-description">Khởi tạo bộ mã hóa...</p></div>
       <a id="download" class="download" href="#" hidden>↓ Download video</a>
       <button id="random-preview" class="secondary">⟳ Randomize preview only</button>
-      <div class="tips"><strong>How it loops</strong><p>Motion is sampled at <code>t = frame / 30</code>. Ảnh AI hoàn toàn đứng yên. Với ảnh mẫu, ánh sáng chạy từ đầu đến chân và nhánh qua tay, rồi lặp lại đúng sau 10 giây.</p><p><strong>Export:</strong> MP4 (H.264) on supported browsers. WebM fallback where MP4 encoding is unavailable. Chrome desktop recommended.</p></div>
+      <div class="tips"><strong>How it loops</strong><p>Motion is sampled at <code>t = frame / 30</code>. Ảnh AI đứng yên. Đặt Outline theo viền người, Arm/Leg ở nơi cần. Các hiệu ứng được đồng bộ theo chu kỳ 10 giây và xuất cùng video.</p><p><strong>Export:</strong> MP4 (H.264) on supported browsers. WebM fallback where MP4 encoding is unavailable. Chrome desktop recommended.</p></div>
     </aside>
   </main>
   <footer>Healing Loop Studio · AI photo + periodic light overlays · No API keys · Cloudflare Pages ready</footer>
