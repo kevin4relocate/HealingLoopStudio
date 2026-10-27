@@ -6,3 +6,7 @@
 .upload-zone input[type=file]::file-selector-button{background:#253b5d;color:white;border:1px solid #6685aa;border-radius:8px;cursor:pointer;padding:10px;margin-right:9px}
 .upload-zone p{margin:4px 0 11px;color:#a4b2d0;font-size:11px;line-height:1.6}
 .upload-zone select{margin:0}
+
+/* Body-following energy path indication */
+.upload-zone .body-status{font-size:11px;line-height:1.6;margin-top:8px;padding:8px 9px;background:#192039;border:1px solid #344464;border-radius:8px;color:#b4c5e2}
+.upload-zone .body-status.active{color:#a3fce5;background:#102e37;border-color:#246e7b}
