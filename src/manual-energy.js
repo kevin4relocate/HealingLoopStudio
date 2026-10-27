@@ -73,6 +73,8 @@ export class ManualEnergy {
     .map(p=>[clamp(+p[0],0,1280),clamp(+p[1],0,720)]);
   }
   this.paths=out;
+  // Cache arc-length spline paths until a user edits control points.
+  this.curves=new Map(Object.keys(out).filter(k=>out[k].length>=2).map(k=>[k,sampled(out[k])]));
  }
  getPaths(){return JSON.parse(JSON.stringify(this.paths))}
  hasPaths(){return Object.values(this.paths).some(p=>p.length>=2)}
@@ -81,7 +83,7 @@ export class ManualEnergy {
   const t=((time%10)+10)%10/10,phase=TAU*t;
   const keys=Object.keys(this.paths);
   const active=keys.filter(k=>this.paths[k].length>=2);
-  const curves=new Map(active.map(k=>[k,sampled(this.paths[k])]));
+  const curves=this.curves;
   c.save();c.globalCompositeOperation='screen';
   for(const key of active){
    const path=curves.get(key),color=colors[COLOR[key]],weight=key==='outline'?1.04:key==='aura'?.65:.85;
